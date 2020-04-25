@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Panda LED Suit</string>
+    <string name="tab_text_1">Scan</string>
+    <string name="tab_text_2">Patterns</string>
+    <string name="tab_text_3">Navigate</string>
+    <string name="tab_text_4">Matrix</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_scan">Hello scan fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_nav">Hello navigation fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment"></string>
+
+    <string-array name="dropVals">
+        <item>Home</item>
+        <item>Other</item>
+        <item>Cell</item>
+    </string-array>
+
+    <!-- Navigation Tab-->
+    <string name="text_back">Go to previous pattern</string>
+    <string name="text_next">Go to next pattern</string>
+
+
+    <!-- Control Tab -->
+    <string name="text_suit">Suit</string>
+    <string name="text_cape">Cape</string>
+    <string name="text_matrix">Matrix</string>
+    <string name="text_suit_detail">some controls for suit</string>
+</resources>

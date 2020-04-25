@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_constraint_scan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.fragment.ScanFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/text_scan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_scan"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lv_list_devices"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="#D1D1D1"
+        android:dividerHeight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_scan"
+        tools:layout_editor_absoluteX="10dp" />
+    <!--
+<ScrollView
+    android:id="@+id/sv_list_devices"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="32dp"
+    app:layout_constraintBottom_toBottomOf="@+id/text_scan"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+
+</ScrollView>  -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
