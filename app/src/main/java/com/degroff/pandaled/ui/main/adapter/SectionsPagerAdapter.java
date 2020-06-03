@@ -13,7 +13,7 @@ import com.degroff.pandaled.ble.BLEScanner;
 import com.degroff.pandaled.ui.main.fragment.ControlFragment;
 import com.degroff.pandaled.ui.main.fragment.MatrixFragment;
 import com.degroff.pandaled.ui.main.fragment.NavFragment;
-import com.degroff.pandaled.ui.main.fragment.PatternListNewFragment;
+import com.degroff.pandaled.ui.main.fragment.PaletteFragment;
 import com.degroff.pandaled.ui.main.fragment.ScanFragment;
 
 /**
@@ -45,10 +45,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
                 return ScanFragment.newInstance(bleScanner, "", "");
             case 1:
                 //  return PatternListFragment.newInstance(1);
-                return PatternListNewFragment.newInstance();
+                // return PatternListFragment.newInstance();
+                return ControlFragment.newInstance();
             case 2:
                 //return NavFragment.newInstance(bleScanner.getStatus());
-                return ControlFragment.newInstance(bleScanner);
+                return PaletteFragment.newInstance(bleScanner);
             case 3:
                 return MatrixFragment.newInstance(bleScanner);
             }

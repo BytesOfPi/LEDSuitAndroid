@@ -15,8 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.degroff.pandaled.R;
 import com.degroff.pandaled.ble.BLEDevice;
 import com.degroff.pandaled.ble.BLEScanner;
-import com.degroff.pandaled.ui.main.adapter.MatrixPatternListAdapter;
-import com.degroff.pandaled.ui.main.spinner.PatternMatrixListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,6 @@ public class MatrixFragment extends Fragment
     {
     private Spinner spinMin;
     private Spinner spinSec;
-    private Spinner spinPatt;
     private TextView tvMessage;
     private final BLEScanner bleScanner;
 
@@ -63,7 +60,6 @@ public class MatrixFragment extends Fragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState)
         {
-
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_matrix, container, false);
 
@@ -71,7 +67,6 @@ public class MatrixFragment extends Fragment
         // Find the valuable components
         spinMin = rootView.findViewById(R.id.spinnerMinutes);
         spinSec = rootView.findViewById(R.id.spinnerSec);
-        spinPatt = rootView.findViewById(R.id.spinnerMatrixPattern);
         tvMessage = rootView.findViewById(R.id.tvScrollMsg);
 
         //------------------------------------------------------------
@@ -80,34 +75,16 @@ public class MatrixFragment extends Fragment
         addTimerSpinnerValues(spinSec, rootView);
 
         //------------------------------------------------------------
-        // Load up Matrix pattern spinner values
-        addPatternSpinnerValues(spinPatt, rootView);
-
-        //------------------------------------------------------------
         // Setup Buttons
-        setupPatternButtons(rootView);
         setupScrollButtons(rootView);
         setupTimerButtons(rootView);
 
         return rootView;
         }
 
-    private void setupPatternButtons(final View rootView)
-        {
-        //------------------------------------------------------------
-        // Send message to change pattern
-        final ImageButton btnPattSend = rootView.findViewById(R.id.btnPattSend);
-        btnPattSend.setOnClickListener(v ->
-        {
-        final String myMsg = ((PatternMatrixListItem) spinPatt.getSelectedItem()).getText();
-        Toast.makeText(getActivity().getBaseContext(), "Sending: " + myMsg, Toast.LENGTH_SHORT).show();
-        bleScanner.sendBLEString(myMsg, BLEDevice.BLE_SEND_MATRIX_PATT_CHARACTERISTIC);
-        });
-        }
 
     private void setupScrollButtons(final View rootView)
         {
-
         //------------------------------------------------------------
         // Send text to scroll on Device and the start message
         final ImageButton btnScrollSend = rootView.findViewById(R.id.btnScrollSend);
@@ -181,24 +158,6 @@ public class MatrixFragment extends Fragment
 
         }
 
-    /* addPatternSpinnerValues()
-     * Loads pattern selecter spinner up with patterns to choose from
-     */
-    private void addPatternSpinnerValues(final Spinner spin, final View rootView)
-        {
-        final List<PatternMatrixListItem> list = new ArrayList<>();
-
-        list.add(new PatternMatrixListItem("Cycle", R.drawable.ic_wb_sunny_black_24dp, R.drawable.ic_wb_sunny_white_24dp));
-        list.add(new PatternMatrixListItem("Pulse", R.drawable.ic_wifi_black_24dp, R.drawable.ic_wifi_white_24dp));
-        list.add(new PatternMatrixListItem("Spin", R.drawable.ic_bluetooth_black_24dp, R.drawable.ic_bluetooth_white));
-        list.add(new PatternMatrixListItem("Fire", R.drawable.ic_whatshot_black_24dp, R.drawable.ic_whatshot_white_24dp));
-
-        final MatrixPatternListAdapter adapter = new MatrixPatternListAdapter(getActivity().getBaseContext(), list);
-        if ( spin != null )
-            {
-            spin.setAdapter(adapter);
-            }
-        }
 
     /* addTimerSpinnerValues()
      * Loads Minutes and Seconds spinner up with values from 0 - 59

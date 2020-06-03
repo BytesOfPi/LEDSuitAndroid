@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.degroff.pandaled.R;
 import com.degroff.pandaled.ui.main.adapter.PatternListAdapter;
 import com.degroff.pandaled.ui.main.fragment.content.PatternListContent;
-import com.degroff.pandaled.ui.main.fragment.content.PatternListContent.PatternItem;
+import com.degroff.pandaled.ui.main.listener.PatternListActionListener;
 
 /**
  * A fragment representing a list of Items.
@@ -20,7 +20,7 @@ import com.degroff.pandaled.ui.main.fragment.content.PatternListContent.PatternI
  * Activities containing this fragment MUST implement the {@link PatternListActionListener}
  * interface.
  */
-public class PatternListNewFragment extends Fragment
+public class PatternListFragment extends Fragment
     {
     private PatternListActionListener mListener;
 
@@ -28,14 +28,14 @@ public class PatternListNewFragment extends Fragment
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PatternListNewFragment()
+    public PatternListFragment()
         {
         }
 
     // Create PatternListNewFragment
-    public static PatternListNewFragment newInstance()
+    public static PatternListFragment newInstance()
         {
-        return new PatternListNewFragment();
+        return new PatternListFragment();
         }
 
     @Override
@@ -48,13 +48,13 @@ public class PatternListNewFragment extends Fragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState)
         {
-        final View rootView = inflater.inflate(R.layout.fragment_pattern_scan, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_pattern_list, container, false);
 
         //-----------------------------------------------------------
         // build and attach view
         if ( rootView != null )
             {
-            final PatternListAdapter adapter = new PatternListAdapter(rootView.getContext(), R.layout.fragment_pattern_item, PatternListContent.ITEMS, mListener);
+            final PatternListAdapter adapter = new PatternListAdapter(rootView.getContext(), R.layout.custom_pattern_item, PatternListContent.ITEMS, mListener);
             final ListView lv = (ListView) rootView.findViewById(R.id.lv_list_patterns);
             lv.setAdapter(adapter);
             }
@@ -85,12 +85,5 @@ public class PatternListNewFragment extends Fragment
         mListener = null;
         }
 
-    /**
-     * PatternListActionListener interface
-     * Defines the interface for a class to listen to Pattern List actions
-     */
-    public interface PatternListActionListener
-        {
-        void onPatternClick(PatternItem item);
-        }
+
     }

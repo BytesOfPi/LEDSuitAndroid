@@ -23,15 +23,15 @@ import com.degroff.pandaled.ble.BLEDevice;
 import com.degroff.pandaled.ble.BLEScanner;
 import com.degroff.pandaled.ui.main.adapter.SectionsPagerAdapter;
 import com.degroff.pandaled.ui.main.fragment.NavFragment;
-import com.degroff.pandaled.ui.main.fragment.PatternListNewFragment;
 import com.degroff.pandaled.ui.main.fragment.ScanFragment;
-import com.degroff.pandaled.ui.main.fragment.content.PatternListContent;
+import com.degroff.pandaled.ui.main.fragment.content.ListItem;
+import com.degroff.pandaled.ui.main.listener.PatternListActionListener;
 import com.degroff.pandaled.util.Toolbox;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity
         implements ScanFragment.OnFragmentInteractionListener,
-        PatternListNewFragment.PatternListActionListener,
+        PatternListActionListener,
         NavFragment.OnFragmentInteractionListener
     {
     public static final int REQUEST_ENABLE_BLE = 1;
@@ -199,14 +199,14 @@ public class MainActivity extends AppCompatActivity
         {
         //------------------------------------------------------------
         // Send selected navigation command to device
-        bleScanner.sendBLEString(val, BLEDevice.BLE_SEND_STRAND_CHARACTERISTIC);
+        bleScanner.sendBLEString(val, BLEDevice.BLE_SEND_SUIT_CHARACTERISTIC);
         }
 
     @Override
-    public void onPatternClick(final PatternListContent.PatternItem item)
+    public void onPatternClick(final ListItem item)
         {
         //------------------------------------------------------------
         // Send selected pattern command to device
-        bleScanner.sendBLEString(item.id, BLEDevice.BLE_SEND_STRAND_CHARACTERISTIC);
+        bleScanner.sendBLEString(item.prefix + item.id, item.bleChar); //BLEDevice.BLE_SEND_SUIT_CHARACTERISTIC;
         }
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,18 +18,18 @@ import com.degroff.pandaled.ui.main.listener.PatternListActionListener;
 
 import java.util.List;
 
-public class PatternListAdapter extends ArrayAdapter<ListItem>
+public class ControlListAdapter extends ArrayAdapter<ListItem>
     {
     /**
      * Class member variables
      */
-    private static final String TAG = "PatternListAdapter";
+    private static final String TAG = "ControlListAdapter";
     private final Context context;
     private final int layoutResourceId;
     private final List<ListItem> patterns;
     private final PatternListActionListener listener;
 
-    public PatternListAdapter(@NonNull final Context context, final int layoutResourceId, @NonNull final List<ListItem> patterns, final PatternListActionListener listener)
+    public ControlListAdapter(@NonNull final Context context, final int layoutResourceId, @NonNull final List<ListItem> patterns, final PatternListActionListener listener)
         {
         super(context, layoutResourceId, patterns);
         this.context = context;
@@ -53,11 +54,16 @@ public class PatternListAdapter extends ArrayAdapter<ListItem>
         //-----------------------------------------------------------------
         // Map Pattern to UI
         final ListItem item = patterns.get(position);
-        final TextView tvPattern = (TextView) convertView.findViewById(R.id.tv_pattern);
+        final TextView tvHead = (TextView) convertView.findViewById(R.id.tv_list_head);
+        final TextView tvDetail = (TextView) convertView.findViewById(R.id.tv_list_detail);
         final StringBuilder sb = new StringBuilder(item.details)
                 .append(" (").append(item.id)
                 .append(")");
-        tvPattern.setText(sb.toString());
+        tvHead.setText(item.content);
+        tvDetail.setText(sb.toString());
+
+        final ImageView iv = (ImageView) convertView.findViewById(R.id.iv_icon);
+        iv.setImageResource((item.drawable != 0) ? item.drawable : R.drawable.ic_wifi_white_24dp);
 
         //-----------------------------------------------------------------
         // Set On Click Listener
@@ -77,5 +83,4 @@ public class PatternListAdapter extends ArrayAdapter<ListItem>
 
         return convertView;
         }
-
     }

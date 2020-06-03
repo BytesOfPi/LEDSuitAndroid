@@ -18,6 +18,7 @@ import com.degroff.pandaled.ui.main.adapter.BLEUIListAdapter;
 import com.degroff.pandaled.util.Toolbox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class BLEScanner implements BLEUIListAdapter.BLEListActionListener, BLEDe
     private final BluetoothAdapter bleAdapter;
     private final Handler handler;
     private boolean scanning;
+
+    List<String> approvedPrefixes;
 
     //---------------------------------------------------------------
     // List / Map of scanned devices
@@ -53,6 +56,11 @@ public class BLEScanner implements BLEUIListAdapter.BLEListActionListener, BLEDe
         {
         this.mainActivity = mainActivity;
         this.scanPeriod = scanPeriod;
+
+        //------------------------------------------------------------
+        // Initialize approved prefixes
+        final String[] prefixes = {"Panda", "Nate"};
+        approvedPrefixes = Arrays.asList(prefixes);
 
         //------------------------------------------------------------
         // Handler creates a post delay to stop BLE scanning
@@ -119,7 +127,7 @@ public class BLEScanner implements BLEUIListAdapter.BLEListActionListener, BLEDe
      */
     public void buildScanListView(final View view)
         {
-        adapter = new BLEUIListAdapter(view.getContext(), this, R.layout.fragment_scan_item, deviceList);
+        adapter = new BLEUIListAdapter(view.getContext(), this, R.layout.custom_scan_item, deviceList);
         final ListView lv = (ListView) view.findViewById(R.id.lv_list_devices);
         lv.setAdapter(adapter);
         }
@@ -235,7 +243,16 @@ public class BLEScanner implements BLEUIListAdapter.BLEListActionListener, BLEDe
             bleAdapter.getBluetoothLeScanner().stopScan(myLECallback);
             Log.v(TAG, "STOPPED SCANNING MANUALLY...");
             }
+        }
 
+    private boolean prefixMatch(final String val)
+        {
+        for ( final String pre : approvedPrefixes )
+            {
+            if ( val.startsWith(pre) )
+                { return true; }
+            }
+        return false;
         }
 
     //---------------------------------------------------------
@@ -256,7 +273,11 @@ public class BLEScanner implements BLEUIListAdapter.BLEListActionListener, BLEDe
 
             //---------------------------------------------------------
             // Only care about BLE devices with a device name
-            if ( device.getName() != null ) { addDevice(device, result.getRssi()); }
+            if ( device.getName() != null &&
+                    prefixMatch(device.getName()) )
+                {
+                addDevice(device, result.getRssi());
+                }
 
             super.onScanResult(callbackType, result);
             }

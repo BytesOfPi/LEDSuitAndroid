@@ -2,7 +2,7 @@
     <string name="app_name">Panda LED Suit</string>
     <string name="tab_text_1">Scan</string>
     <string name="tab_text_2">Patterns</string>
-    <string name="tab_text_3">Navigate</string>
+    <string name="tab_text_3">Palettes</string>
     <string name="tab_text_4">Matrix</string>
 
 
@@ -26,9 +26,22 @@
     <string name="text_next">Go to next pattern</string>
 
 
+    <!-- Palette Tab -->
+
     <!-- Control Tab -->
+    <string name="text_outfit">Outfit</string>
     <string name="text_suit">Suit</string>
     <string name="text_cape">Cape</string>
     <string name="text_matrix">Matrix</string>
-    <string name="text_suit_detail">some controls for suit</string>
+
+    <!-- Palette Tab -->
+    <string name="text_pal_first">First Palette</string>
+    <string name="text_pal_first_xtra">Select first palette</string>
+    <string name="text_pal_second">Second Palette</string>
+    <string name="text_pal_second_xtra">Select second palette</string>
+    <string name="text_pal_col_first">First Color</string>
+    <string name="text_pal_col_first_xtra">Select first color</string>
+    <string name="text_pal_col_second">Second Color</string>
+    <string name="text_pal_col_second_xtra">Select second color</string>
+
 </resources>

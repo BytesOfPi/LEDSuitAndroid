@@ -22,12 +22,22 @@ public class BLEDevice
     private static final String DUMMY_NAME = "Unknown";
     private static final String DUMMY_ADDR = "123";
     private static final UUID UUID_LED_SERVICE = UUID.fromString("a5ff4b63-9be5-49c8-8ac4-3d376ae2cca3");
-    private static final UUID UUID_LED_GET_PATTERN_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df31234");
-    private static final UUID UUID_LED_SET_PATTERN_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df301b6");
-    private static final UUID UUID_LED_SET_MATRIX_PATT_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df301b7");
-    private static final UUID UUID_LED_SET_MATRIX_SCROLL_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df301b8");
-    private static final UUID UUID_LED_SET_MATRIX_TIMER_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df301b9");
     private static final UUID UUID_CLIENT_CHARACTERISTIC_CONFIG = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+
+    private static final UUID UUID_LED_SET_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df34321");
+
+    private static final UUID UUID_LED_SET_FULL_PATT_CHAR = UUID.fromString("9082f7cb-c208-43d6-9848-e0802df34321");
+
+    private static final UUID UUID_LED_GET_SUIT_PATTERN_CHAR = UUID.fromString("ecd0fe34-fa4c-4cd0-9a4e-991d57ef5008");
+    private static final UUID UUID_LED_SET_SUIT_PATTERN_CHAR = UUID.fromString("2539da47-36d5-4e26-8789-621e683aa294");
+    private static final UUID UUID_LED_SET_MATRIX_PATT_CHAR = UUID.fromString("1c29d445-46e7-40c1-ad45-e87d10f4ba79");
+    private static final UUID UUID_LED_SET_CAPE_PATT_CHAR = UUID.fromString("e6f0ebf4-6b06-4d0a-a3a0-d1c91e7b5919");
+
+    private static final UUID UUID_LED_SET_PAL_COL_CHAR = UUID.fromString("66efc725-2d5b-4e88-a381-cd6cb4d78cfb");
+
+    private static final UUID UUID_LED_SET_MATRIX_SCROLL_CHAR = UUID.fromString("799b6016-8120-4b10-b6c3-0c58178ebd00");
+    private static final UUID UUID_LED_SET_MATRIX_TIMER_CHAR = UUID.fromString("a8ea0d63-4c4d-4535-a420-fb97053d32b8");
+
 
     private int connectionState = STATE_DISCONNECTED;
     public static final int STATE_DISCONNECTED = 0;
@@ -35,22 +45,36 @@ public class BLEDevice
     public static final int STATE_DISCOVERING = 2;
     public static final int STATE_CONNECTED = 3;
 
-    public static final int BLE_SEND_STRAND_CHARACTERISTIC = 0x00;
-    public static final int BLE_SEND_MATRIX_PATT_CHARACTERISTIC = 0x01;
-    public static final int BLE_SEND_MATRIX_SCROLL_CHARACTERISTIC = 0x02;
-    public static final int BLE_SEND_MATRIX_TIMER_CHARACTERISTIC = 0x03;
+    public static final int BLE_SEND_CHARACTERISTIC = 0x00;
+
+    public static final int BLE_SEND_FULL_CHARACTERISTIC = 0x05;//0x00;
+    public static final int BLE_SEND_SUIT_CHARACTERISTIC = 0x01;
+    public static final int BLE_SEND_MATRIX_PATT_CHARACTERISTIC = 0x02;
+    public static final int BLE_SEND_CAPE_PATT_CHARACTERISTIC = 0x03;
+
+    public static final int BLE_SEND_PAL_COL_CHARACTERISTIC = 0x04;
+
+    public static final int BLE_SEND_MATRIX_SCROLL_CHARACTERISTIC = 0x0A;
+    public static final int BLE_SEND_MATRIX_TIMER_CHARACTERISTIC = 0x0B;
 
     private BluetoothDevice device;
     private int rssi;
     private BLEDeviceListener listener = null;
 
     private BluetoothGatt gatt;
-    private BluetoothGattCharacteristic bleSendStrandCharacteristic;
-    private BluetoothGattCharacteristic bleSendMatrixPattCharacteristic;
-    private BluetoothGattCharacteristic bleSendMatrixScrollCharacteristic;
-    private BluetoothGattCharacteristic bleSendMatrixTimerCharacteristic;
     private BluetoothGattCharacteristic gattGetPatternCharacteristic;
 
+    private BluetoothGattCharacteristic bleSendCharacteristic;
+
+    private BluetoothGattCharacteristic bleSendFullPattCharacteristic;
+    private BluetoothGattCharacteristic bleSendSuitPattCharacteristic;
+    private BluetoothGattCharacteristic bleSendMatrixPattCharacteristic;
+    private BluetoothGattCharacteristic bleSendCapePattCharacteristic;
+
+    private BluetoothGattCharacteristic bleSendPalColCharacteristic;
+
+    private BluetoothGattCharacteristic bleSendMatrixScrollCharacteristic;
+    private BluetoothGattCharacteristic bleSendMatrixTimerCharacteristic;
 
     public BLEDevice(final BluetoothDevice device, final int rssi)
         {
@@ -65,15 +89,27 @@ public class BLEDevice
     public boolean sendBLEString(final String patt, final int sendBLEChar)
         {
         if ( getState() != STATE_CONNECTED ) { return false; }
-        BluetoothGattCharacteristic sendBLE = bleSendStrandCharacteristic;
+        BluetoothGattCharacteristic sendBLE = bleSendSuitPattCharacteristic;
 
         switch ( sendBLEChar )
             {
-            case BLE_SEND_STRAND_CHARACTERISTIC:
-                sendBLE = bleSendStrandCharacteristic;
+            case BLE_SEND_CHARACTERISTIC:
+                sendBLE = bleSendCharacteristic;
+                break;
+            case BLE_SEND_FULL_CHARACTERISTIC:
+                sendBLE = bleSendFullPattCharacteristic;
+                break;
+            case BLE_SEND_SUIT_CHARACTERISTIC:
+                sendBLE = bleSendSuitPattCharacteristic;
+                break;
+            case BLE_SEND_CAPE_PATT_CHARACTERISTIC:
+                sendBLE = bleSendCapePattCharacteristic;
                 break;
             case BLE_SEND_MATRIX_PATT_CHARACTERISTIC:
                 sendBLE = bleSendMatrixPattCharacteristic;
+                break;
+            case BLE_SEND_PAL_COL_CHARACTERISTIC:
+                sendBLE = bleSendPalColCharacteristic;
                 break;
             case BLE_SEND_MATRIX_SCROLL_CHARACTERISTIC:
                 sendBLE = bleSendMatrixScrollCharacteristic;
@@ -155,15 +191,25 @@ public class BLEDevice
                     {
                     //---------------------------------------------------------
                     // Get a hold of the Set pattern
-                    bleSendStrandCharacteristic = service.getCharacteristic(UUID_LED_SET_PATTERN_CHAR);
+                    bleSendCharacteristic = service.getCharacteristic(UUID_LED_SET_CHAR);
+                    bleSendFullPattCharacteristic = service.getCharacteristic(UUID_LED_SET_FULL_PATT_CHAR);
+                    bleSendSuitPattCharacteristic = service.getCharacteristic(UUID_LED_SET_SUIT_PATTERN_CHAR);
                     bleSendMatrixPattCharacteristic = service.getCharacteristic(UUID_LED_SET_MATRIX_PATT_CHAR);
+                    bleSendCapePattCharacteristic = service.getCharacteristic(UUID_LED_SET_CAPE_PATT_CHAR);
+
+                    //---------------------------------------------------------
+                    // Get a hold of the Set palette / color
+                    bleSendPalColCharacteristic = service.getCharacteristic(UUID_LED_SET_PAL_COL_CHAR);
+
+                    //---------------------------------------------------------
+                    // Extra characteristics
                     bleSendMatrixScrollCharacteristic = service.getCharacteristic(UUID_LED_SET_MATRIX_SCROLL_CHAR);
                     bleSendMatrixTimerCharacteristic = service.getCharacteristic(UUID_LED_SET_MATRIX_TIMER_CHAR);
 
                     //---------------------------------------------------------
                     // Turn on notification of the Get Pattern characteristic
                     Log.v(TAG, "Getting Get Pattern...");
-                    gattGetPatternCharacteristic = service.getCharacteristic(UUID_LED_GET_PATTERN_CHAR);
+                    gattGetPatternCharacteristic = service.getCharacteristic(UUID_LED_GET_SUIT_PATTERN_CHAR);
                     gatt.setCharacteristicNotification(gattGetPatternCharacteristic, true);
                     final BluetoothGattDescriptor descriptor =
                             gattGetPatternCharacteristic.getDescriptor(UUID_CLIENT_CHARACTERISTIC_CONFIG);
@@ -186,7 +232,7 @@ public class BLEDevice
                 {
                 //---------------------------------------------------------
                 // Log when writing pattern characteristic
-                if ( characteristic.getUuid().equals(UUID_LED_SET_PATTERN_CHAR) && listener != null )
+                if ( characteristic.getUuid().equals(UUID_LED_SET_SUIT_PATTERN_CHAR) && listener != null )
                     {
                     final String msg = new String(characteristic.getValue());
                     Log.v(TAG, "onCharacteristicWrite(): [" + msg + "]");
@@ -201,7 +247,7 @@ public class BLEDevice
                 // Send pattern characteristic to listener
                 final String msg = new String(characteristic.getValue());
                 Log.v(TAG, "onCharacteristicChanged() [" + msg + "]");
-                if ( characteristic.getUuid().equals(UUID_LED_GET_PATTERN_CHAR) && listener != null )
+                if ( characteristic.getUuid().equals(UUID_LED_GET_SUIT_PATTERN_CHAR) && listener != null )
                     {
                     Log.v(TAG, "sending to listener() [" + msg + "]");
                     listener.onPatternUpdate(msg);
